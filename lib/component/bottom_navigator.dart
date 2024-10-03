@@ -85,14 +85,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 height: 50,
                 decoration: BoxDecoration(
                   color: widget.currentIndex == 0
-                      ? Color(0xFF0E197E)
+                      ? Color(0xFFA4A4A4)
                       : _hoveredIndex == 0
-                          ? Color(0xFF0E197E)
-                          : Color(0xFFA4A4A4),
+                          ? Color(0xFFA4A4A4)
+                          : Color(0xFF0E197E),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
-                  Icons.motorcycle,
+                  Icons.assignment,
                   color: Colors.white,
                   size: 25,
                 ),
@@ -100,7 +100,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             ),
           ),
           Positioned(
-            left: 327,
+            left: 300,
             top: 40,
             child: GestureDetector(
               onTap: () {
@@ -131,7 +131,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             ),
           ),
           Positioned(
-            left: 30,
+            left: 60,
             top: 40,
             child: GestureDetector(
               onTap: () {
@@ -160,39 +160,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
               ),
             ),
           ),
-          Positioned(
-            left: 105,
-            top: 40,
-            child: GestureDetector(
-              onTap: () {
-                widget.onTap(3);
-              },
-              onTapDown: (_) {
-                setState(() {
-                  _hoveredIndex = 3;
-                });
-              },
-              child: Container(
-                width: 35,
-                height: 35,
-                decoration: const BoxDecoration(),
-                child: Icon(
-                  Icons.event,
-                  color: widget.currentIndex == 3
-                      ? Color(0xFF0E197E)
-                      : _hoveredIndex == 3
-                          ? Color(0xFF0E197E)
-                          : Color(0xFFA4A4A4),
-                  size: 28,
-                ),
-              ),
-            ),
-          ),
           const Positioned(
             left: 176,
             top: 70,
             child: Text(
-              'Komunitas',
+              'Pengaduan',
               style: TextStyle(
                 color: Color(0xFF6E6E6E),
                 fontSize: 10,
@@ -202,7 +174,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             ),
           ),
           const Positioned(
-            left: 28,
+            left: 58,
             top: 70,
             child: Text(
               'Beranda',
@@ -215,20 +187,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             ),
           ),
           const Positioned(
-            left: 95,
-            top: 70,
-            child: Text(
-              'Form Event',
-              style: TextStyle(
-                color: Color(0xFF6E6E6E),
-                fontSize: 10,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-          const Positioned(
-            left: 330,
+            left: 303,
             top: 70,
             child: Text(
               'Profil',

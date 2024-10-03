@@ -6,7 +6,6 @@ import 'package:gcom_app/component/bottom_navigator.dart';
 import 'package:gcom_app/package/ProfilePage.dart';
 import 'package:gcom_app/package/TestMultiPage.dart';
 import 'package:gcom_app/package/ViewAllEvent.dart';
-import 'package:gcom_app/package/community_search.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -100,12 +99,12 @@ class _DasboardPageState extends State<DasboardPage> {
   void _onItemTapped(int index) {
     setState(() {
       _currentIndex = index;
-      if (index == 3) {
+      if (index == 2) {
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) =>
-                  MultiPageForm()), // Make sure this is the correct navigation logic
+                  DasboardPage()), // Make sure this is the correct navigation logic
         );
       }
 
@@ -122,7 +121,7 @@ class _DasboardPageState extends State<DasboardPage> {
           context,
           MaterialPageRoute(
               builder: (context) =>
-                  Community_Search()), // Make sure this is the correct navigation logic
+                  MultiPageForm()), // Make sure this is the correct navigation logic
         );
       }
     });

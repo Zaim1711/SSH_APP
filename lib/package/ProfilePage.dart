@@ -12,8 +12,6 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'community_search.dart';
-
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -120,12 +118,12 @@ class _ProfilePageState extends State<ProfilePage> {
   void _onItemTapped(int index) {
     setState(() {
       _currentIndex = index;
-      if (index == 3) {
+      if (index == 1) {
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) =>
-                  MultiPageForm()), // Make sure this is the correct navigation logic
+                  ProfilePage()), // Make sure this is the correct navigation logic
         );
       }
       if (index == 2) {
@@ -142,7 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
           context,
           MaterialPageRoute(
               builder: (context) =>
-                  Community_Search()), // Make sure this is the correct navigation logic
+                  MultiPageForm()), // Make sure this is the correct navigation logic
         );
       }
     });
