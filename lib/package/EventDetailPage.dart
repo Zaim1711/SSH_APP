@@ -9,14 +9,14 @@ import 'package:gcom_app/package/community_search.dart';
 import 'package:intl/intl.dart';
 
 class EventDetailPage extends StatefulWidget {
-  final Map<String, dynamic> event;
+  final Map<String, dynamic> laporan;
   final String imagePath; // Parameter untuk path gambar
 
-  EventDetailPage({required this.event, required this.imagePath});
+  EventDetailPage({required this.laporan, required this.imagePath});
 
   // Tambahkan constructor default tanpa parameter dengan nilai default
   EventDetailPage.empty()
-      : event = const {},
+      : laporan = const {},
         imagePath = '';
 
   @override
@@ -28,7 +28,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
 
   String formatIsoDateToNormal(String isoDate) {
     DateTime dateTime = DateTime.parse(isoDate);
-    final DateFormat formatter = DateFormat('dd MMMM yyyy, hh:mm a', 'id_ID');
+    final DateFormat formatter = DateFormat('dd MMMM yyyy, ', 'id_ID');
     return formatter.format(dateTime);
   }
 
@@ -176,7 +176,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                 left: 20, // Sesuaikan posisi horizontal
                                 top: 200, // Sesuaikan posisi vertikal
                                 child: Text(
-                                  '${widget.event['eventName']}',
+                                  '${widget.laporan['name']}',
                                   style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
@@ -186,7 +186,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                 left: 135, // Sesuaikan posisi horizontal
                                 top: 225, // Sesuaikan posisi vertikal
                                 child: Text(
-                                  '${widget.event['eventAddress']}',
+                                  '${widget.laporan['status_pelapor']}',
                                   style: const TextStyle(fontSize: 16),
                                 ),
                               ),
@@ -194,7 +194,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                 left: 100, // Sesuaikan posisi horizontal
                                 top: 245, // Sesuaikan posisi vertikal
                                 child: Text(
-                                  '${formatIsoDateToNormal(widget.event['eventDateTime'])}',
+                                  '${formatIsoDateToNormal(widget.laporan['tanggal_kekerasan'])}',
                                   style: const TextStyle(fontSize: 16),
                                 ),
                               ),
@@ -202,7 +202,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                 left: 170, // Sesuaikan posisi horizontal
                                 top: 265, // Sesuaikan posisi vertikal
                                 child: Text(
-                                  '${widget.event['eventStatus']}',
+                                  '${widget.laporan['status']}',
                                   style: const TextStyle(fontSize: 16),
                                 ),
                               ),

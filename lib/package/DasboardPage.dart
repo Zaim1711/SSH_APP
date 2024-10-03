@@ -3,9 +3,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:gcom_app/component/bottom_navigator.dart';
+import 'package:gcom_app/package/EventDetailPage.dart';
 import 'package:gcom_app/package/ProfilePage.dart';
 import 'package:gcom_app/package/TestMultiPage.dart';
-import 'package:gcom_app/package/ViewAllEvent.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -92,7 +92,7 @@ class _DasboardPageState extends State<DasboardPage> {
 
   String formatIsoDateToNormal(String isoDate) {
     DateTime dateTime = DateTime.parse(isoDate);
-    final DateFormat formatter = DateFormat('dd MMMM yyyy, hh:mm a', 'id_ID');
+    final DateFormat formatter = DateFormat('dd MMMM yyyy', 'id_ID');
     return formatter.format(dateTime);
   }
 
@@ -269,37 +269,6 @@ class _DasboardPageState extends State<DasboardPage> {
                           ),
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ViewAllEvent(), // Gantilah ViewAllEvent dengan nama halaman yang sesuai
-                            ),
-                          );
-                          // Aksi yang dijalankan saat tombol ditekan
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors
-                              .transparent, // Warna latar belakang tombol saat normal
-                          elevation: 0, // Hilangkan efek bayangan bawaan
-                          shadowColor:
-                              Colors.grey.withOpacity(0.5), // Warna bayangan
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            'view all',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 120, 128, 201),
-                              fontSize: 18,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                   // Daftar History Laporan
@@ -319,16 +288,16 @@ class _DasboardPageState extends State<DasboardPage> {
                   // }
                   return GestureDetector(
                     onTap: () {
-                      // // Navigasi ke halaman detail event dengan membawa data event
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => EventDetailPage(
-                      //       event: event,
-                      //       imagePath: event['eventImage'],
-                      //     ),
-                      //   ),
-                      // );
+                      // Navigasi ke halaman detail event dengan membawa data event
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EventDetailPage(
+                            laporan: laporan,
+                            imagePath: laporan['bukti_kekerasan'],
+                          ),
+                        ),
+                      );
                     },
                     child: Container(
                       margin: const EdgeInsets.only(bottom: 15),
@@ -370,7 +339,9 @@ class _DasboardPageState extends State<DasboardPage> {
                               child: Text(
                                 _getFormattedName(laporan['name']) +
                                     '\n' +
-                                    laporan['status_pelapor'],
+                                    laporan['status_pelapor'] +
+                                    ' ' +
+                                    laporan['jenis_kekerasan'],
                                 style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 14,

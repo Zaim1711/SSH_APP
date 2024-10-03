@@ -175,7 +175,7 @@ class _ViewAllEvent extends State<ViewAllEvent> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => EventDetailPage(
-                            event: event,
+                            laporan: event,
                             imagePath: event['eventImage'],
                           ),
                         ),
@@ -213,7 +213,7 @@ class _ViewAllEvent extends State<ViewAllEvent> {
                               width: 249,
                               child: Text(
                                 '${event['eventName']}\n${event['eventAddress']}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 11,
                                   fontFamily: 'Montserrat',

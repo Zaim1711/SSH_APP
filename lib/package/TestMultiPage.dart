@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:gcom_app/component/bottom_navigator.dart';
 import 'package:gcom_app/package/DasboardPage.dart';
 import 'package:gcom_app/package/ProfilePage.dart';
-import 'package:gcom_app/package/community_search.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -51,7 +50,7 @@ class _MultiPageFormState extends State<MultiPageForm> {
       if (index == 0) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Community_Search()),
+          MaterialPageRoute(builder: (context) => MultiPageForm()),
         );
       }
     });
