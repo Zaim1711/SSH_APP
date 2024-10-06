@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:gcom_app/component/bottom_navigator.dart';
 import 'package:gcom_app/package/DasboardPage.dart';
-import 'package:gcom_app/package/EventFormPage.dart';
 import 'package:gcom_app/package/ProfilePage.dart';
+import 'package:gcom_app/package/TestMultiPage.dart';
 import 'package:gcom_app/package/community_search.dart';
 import 'package:intl/intl.dart';
 
@@ -40,7 +40,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
           context,
           MaterialPageRoute(
               builder: (context) =>
-                  EventFormPage()), // Make sure this is the correct navigation logic
+                  MultiPageForm()), // Make sure this is the correct navigation logic
         );
       }
       if (index == 2) {

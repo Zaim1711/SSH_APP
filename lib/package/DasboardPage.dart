@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:gcom_app/component/bottom_navigator.dart';
+import 'package:gcom_app/package/ChatScreen.dart';
 import 'package:gcom_app/package/EventDetailPage.dart';
 import 'package:gcom_app/package/ProfilePage.dart';
 import 'package:gcom_app/package/TestMultiPage.dart';
@@ -174,6 +175,20 @@ class _DasboardPageState extends State<DasboardPage> {
                   ],
                 ),
               ),
+              Padding(
+                  padding: const EdgeInsets.only(right: 100, top: 0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Chatscreen()),
+                      );
+                    },
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [Icon(Icons.message)],
+                    ),
+                  )),
               // Input pencarian
               // SearchInput(onSearchChanged: _performSearch),
               const SizedBox(

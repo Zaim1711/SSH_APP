@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gcom_app/component/bottom_navigator.dart';
 import 'package:gcom_app/package/DasboardPage.dart';
-import 'package:gcom_app/package/EventFormPage.dart';
+import 'package:gcom_app/package/TestMultiPage.dart';
 import 'package:http/http.dart' as http;
 
 import '../component/Search.dart';
@@ -43,7 +43,7 @@ class _Community_SearchState extends State<Community_Search> {
           context,
           MaterialPageRoute(
               builder: (context) =>
-                  EventFormPage()), // Make sure this is the correct navigation logic
+                  MultiPageForm()), // Make sure this is the correct navigation logic
         );
       }
       if (index == 2) {

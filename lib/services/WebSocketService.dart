@@ -12,8 +12,8 @@ class WebSocketService {
 
   late WebSocketChannel _channel;
 
-  void connect() {
-    _channel = IOWebSocketChannel.connect('http://10.0.2.2:8090/chat');
+  void connect(String token) {
+    _channel = IOWebSocketChannel.connect('http://10.0.2.2:8080/chat');
   }
 
   void sendMessage(String message) {
