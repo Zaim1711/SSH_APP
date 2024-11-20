@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:gcom_app/component/bottom_navigator.dart';
-import 'package:gcom_app/package/ChatScreen.dart';
 import 'package:gcom_app/package/EventDetailPage.dart';
+import 'package:gcom_app/package/LandingPageChat.dart';
 import 'package:gcom_app/package/ProfilePage.dart';
 import 'package:gcom_app/package/TestMultiPage.dart';
 import 'package:http/http.dart' as http;
@@ -176,18 +176,31 @@ class _DasboardPageState extends State<DasboardPage> {
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.only(right: 100, top: 0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Chatscreen()),
-                      );
-                    },
-                    child: const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [Icon(Icons.message)],
-                    ),
+                  padding: const EdgeInsets.only(left: 320, bottom: 0),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LandingPageChatRooms()),
+                          );
+                        },
+                        child: const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(
+                              Icons.message,
+                              color: Color(
+                                0xFF0E197E,
+                              ),
+                              size: 30,
+                            )
+                          ],
+                        ),
+                      )
+                    ],
                   )),
               // Input pencarian
               // SearchInput(onSearchChanged: _performSearch),

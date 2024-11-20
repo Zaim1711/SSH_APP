@@ -1,11 +1,20 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:gcom_app/model/userModel.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class Chatscreen extends StatefulWidget {
+  final User user; // Menerima pengguna yang dipilih
+  final String roomId; // Menerima id chat yang dipilih
+
+  Chatscreen({Key? key, required this.user, required this.roomId})
+      : super(key: key);
+
   @override
   _WebSocketChatAppState createState() => _WebSocketChatAppState();
 }
@@ -30,15 +39,18 @@ class _WebSocketChatAppState extends State<Chatscreen> {
 
     // Tambahkan listener untuk menerima pesan dari server
     channel!.stream.listen((message) {
+      // Dekode JSON yang diterima dari server
+      final decodedMessage = jsonDecode(message);
+      final displayMessage =
+          "Sender: ${decodedMessage['sender']['id']} - ${decodedMessage['messageContent']}";
+
       // Kirim pesan ke StreamController
-      _messageController.add(message);
+      _messageController.add(displayMessage);
     }, onError: (error) {
-      // Tangani kesalahan
       print('Error: $error');
     }, onDone: () {
-      // Tangani saat koneksi ditutup
       print('Connection closed');
-      _messageController.close(); // Tutup StreamController saat koneksi ditutup
+      _messageController.close();
     });
   }
 
@@ -47,38 +59,36 @@ class _WebSocketChatAppState extends State<Chatscreen> {
     if (channel != null) {
       // Buat objek pesan
       Map<String, dynamic> message = {
+        'sendingTime': DateTime.now().toIso8601String(),
         'messageContent': messageContent,
-        'sender': {'id': senderId}, // Sesuaikan dengan struktur objek User Anda
-        'chatRoom': {
-          'id': chatRoomId
-        }, // Sesuaikan dengan struktur objek ChatRoom Anda
-        'sendingTime':
-            DateTime.now().toIso8601String(), // Gunakan waktu saat ini
+        'chatRoom': {'id': chatRoomId},
+        'sender': {'id': senderId},
       };
 
-      // Kirim pesan ke channel WebSocket
-      channel!.sink.add(message.toString()); // Ubah ke format string
+      // Konversi pesan ke format JSON string dan kirim
+      channel!.sink.add(jsonEncode(message));
     }
   }
 
   Future<void> _connectWebSocket() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token =
-        prefs.getString('accesToken'); // Ambil token dari Shared Preferences
+    String? token = prefs.getString('accesToken');
 
-    connect(token!); // Koneksi WebSocket dengan token
+    if (token != null) {
+      connect(token);
 
-    // Mengupdate status koneksi
-    setState(() {
-      isConnected = true;
-    });
-
-    // Mendengarkan pesan yang diterima dari server
-    _messageController.stream.listen((message) {
       setState(() {
-        messages.add(message); // Menambahkan pesan ke daftar
+        isConnected = true;
       });
-    });
+
+      _messageController.stream.listen((message) {
+        setState(() {
+          messages.add(message);
+        });
+      });
+    } else {
+      print("Token tidak ditemukan.");
+    }
   }
 
   @override
@@ -89,26 +99,48 @@ class _WebSocketChatAppState extends State<Chatscreen> {
 
   @override
   void dispose() {
-    channel?.sink.close(); // Putuskan koneksi saat widget dihapus
+    channel?.sink.close();
+    _messageController.close(); // Menutup StreamController
     super.dispose();
   }
 
-  void _sendMessage() {
-    String message = _messageInputController.text;
-    if (message.isNotEmpty) {
-      String senderId = '1'; // Ganti dengan ID pengirim yang valid
-      int chatRoomId = 1; // Ganti dengan ID ruang chat yang valid
-
-      sendMessage(message, senderId, chatRoomId);
-      _messageInputController.clear(); // Kosongkan field input
-    }
+  Future<String?> saveMessage(
+      String messageContent, String senderId, String chatRoomId) async {
+    final url = Uri.parse('http://10.0.2.2:8080/api/messages');
+    final response = await http.post(url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'message_content': messageContent,
+          'room_id': {'id': chatRoomId},
+          'sender_id': {'id': senderId},
+        }));
+    print(senderId);
+    print(chatRoomId);
+    print(messageContent);
+    if (response.statusCode == 200) {}
+    return null;
   }
+
+  // void _sendMessage() {
+  //   String message = _messageInputController.text;
+  //   if (message.isNotEmpty) {
+  //     String senderId =
+  //         widget.user.id.toString(); // Menggunakan ID pengguna yang dipilih
+  //     String chatRoomId = widget.roomId; // Ganti dengan ID ruang chat yang valid
+
+  //     sendMessage(message, senderId, chatRoomId);
+  //     _messageInputController.clear();
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('WebSocket Chat'),
+        title: Text(
+            'Chat dengan ${widget.user.username}'), // Menampilkan email pengguna yang dipilih
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -130,10 +162,20 @@ class _WebSocketChatAppState extends State<Chatscreen> {
                 labelText: 'Enter message',
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             IconButton(
               icon: Icon(Icons.send),
-              onPressed: _sendMessage,
+              onPressed: () {
+                String messageContent = _messageInputController.text;
+                if (messageContent.isNotEmpty) {
+                  String senderId = widget.user.id.toString();
+                  String chatRoomId = widget.roomId;
+
+                  saveMessage(messageContent, senderId, chatRoomId);
+
+                  _messageInputController.clear();
+                }
+              },
             ),
           ],
         ),
